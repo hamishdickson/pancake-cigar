@@ -32,5 +32,5 @@ slow_down_factor = 0.0001;
 
 p_x = slow_down_factor * u_x * t + p_x;
 p_y = u_y * t + p_y;
-scatter(p_x, p_y, 20, sqrt(p_x.^2 + p_y.^2), 'filled')
-title ('Dumb implementation - actually not that bad');
+scatter(p_x, p_y, 20, sqrt(u_x.^2 + u_y.^2), 'filled')
+title ('Dumb implementation of pancake expanding into a cigar - actually not that bad');
