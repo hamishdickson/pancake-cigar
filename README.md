@@ -7,3 +7,5 @@ An attempt to model something Freeman Dyson said (I've attempted  to find the pa
 * if you have a cigar shaped explosion, it will expand out in a pancake shape
 
 If you'd like to know more, I guess you should model it... having said that I found out about this in a book called Project Orion, the Atomic Spaceship 1957-1965 by George Dyson - it's an excellent book, try and read it if you can find a copy.
+
+![alt tag](https://github.com/hamishdickson/pancake-cigar/blob/development/images/dumb-implementation.png)
