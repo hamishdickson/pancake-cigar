@@ -13,24 +13,44 @@
 %% Initialization
 clear ; close all; clc
 
+MAX_TIME = 3;
+TIME_INCREMENT = 1;
+SLOW_DOWN_FACTOR = 0.0001;
+
+PAUSE_TIME = 1;
+
+AXIS_SCALE = [-20 20 -20 20];
+
 % give each a random position on the line
 p_x = randn(1000, 1);
 p_y = zeros(1000, 1);
 
-% plot em in a scatter graph
-%scatter(p_x, p_y, [], sqrt(p_x.^2 + p_x.^2))
+% get 100 random velocities in the x dirn, but slow them down
+u_x = SLOW_DOWN_FACTOR * randn(1000,1);
 
-% get 100 random x's
-u_x = randn(1000,1);
-
-% get 100 random y's
+% get 100 random velocities in the y dirn
 u_y = randn(1000,1);
 
-% I don't care about acceleration
-t = 10;
-slow_down_factor = 0.0001;
+c = sqrt(u_x.^2 + u_y.^2);
 
-p_x = slow_down_factor * u_x * t + p_x;
-p_y = u_y * t + p_y;
-scatter(p_x, p_y, 20, sqrt(u_x.^2 + u_y.^2), 'filled')
-title ('Dumb implementation of pancake expanding into a cigar - actually not that bad');
+for t = 0 : TIME_INCREMENT*MAX_TIME;
+	% I don't care about acceleration
+	p_x = u_x * TIME_INCREMENT + p_x;
+	p_y = u_y * t * TIME_INCREMENT + p_y;
+
+	scatter(p_x, p_y, 20, c, 'filled')
+	axis (AXIS_SCALE);
+	time = t*TIME_INCREMENT
+	title ('Dumb implementation of pancake expanding into a cigar - actually not that bad ');
+	pause (PAUSE_TIME);
+	hold on;
+
+	if t = TIME_INCREMENT*MAX_TIME;
+		hold off
+		else
+	elif
+		clf;
+	end
+end
+
+hold off;
