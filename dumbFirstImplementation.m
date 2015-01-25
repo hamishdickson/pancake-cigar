@@ -16,6 +16,8 @@
 %% Initialization
 clear ; close all; clc
 
+AXIS_SCALE = [-20 20 -20 20];
+
 MAX_TIME = 3;
 TIME_INCREMENT = 1;
 SLOW_DOWN_FACTOR = 0.0001;
@@ -23,8 +25,6 @@ SLOW_DOWN_FACTOR = 0.0001;
 PAUSE_TIME = 0; % turns out you don't really need this - octave takes ages to create a graph of 1000 particles!
 
 PARTICLES = 1000;
-
-AXIS_SCALE = [-20 20 -20 20];
 
 % give each a random position on the line
 p_x = randn(PARTICLES, 1);
