@@ -22,17 +22,60 @@ clear ; close all; clc
 
 AXIS_SCALE = [-20 20 -20 20];
 PARTICLES = 1000;
-SQUISH = 5;
+SQUISH = 100;
+TIME_INCREMENT = 1;
 
 %% first off - start with a ball - how would a ball expand?
 
 p_x = randn(PARTICLES, 1);
 p_y = randn(PARTICLES, 1) / SQUISH;
 
-%u_x = randn(PARTICLES,1);
-%u_y = randn(PARTICLES,1);
+% so, every particle has a velocity to start with
+u_x = randn(PARTICLES,1);
+u_y = randn(PARTICLES,1);
 
-c = sqrt((p_x / SQUISH).^2 + p_y.^2);
+c = sqrt(u_x.^2 + u_y.^2);
 
+%% initial state
 scatter(p_x, p_y, 20, c, 'filled')
 axis (AXIS_SCALE);
+hold on;
+
+pause (1);
+
+p_x = u_x * TIME_INCREMENT + p_x;
+p_y = u_y * TIME_INCREMENT + p_y;
+
+clf;
+scatter(p_x, p_y, 20, c, 'filled')
+axis (AXIS_SCALE);
+
+pause (1);
+
+% after each time chunk, each particle has a probablity that it will "walk". The probablity is based on
+% how dense the material around it is (the denser the material - the more likely it is to have a walk)
+
+% lets assume the size of the walk is the same (we're dealing with very high evergy plasmers here)
+
+% guess - probability of walk = 1 / sqrt((p_x / SQUISH).^2 + p_y.^2) ie the closer in it is, the more dense
+% the material
+
+PROB_BOOST = 1/10;
+
+for t=1:5
+	prob = 1 / sqrt((PROB_BOOST * p_x / SQUISH).^2 + (PROB_BOOST * p_y).^2);
+
+	u_x = u_x + (prob * randn(PARTICLES,1)); % old speed + some random adjustment
+	u_y = u_y + (prob * randn(PARTICLES,1));
+
+	p_x = u_x * TIME_INCREMENT + p_x;
+	p_y = u_y * TIME_INCREMENT + p_y;
+
+	c = sqrt(u_x.^2 + u_y.^2); % ie the magnitude of the speed
+
+	clf;
+	scatter(p_x, p_y, 20, c, 'filled')
+	axis (AXIS_SCALE);
+
+	pause (1);
+end
