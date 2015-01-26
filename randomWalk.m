@@ -9,7 +9,7 @@
 % all the same mass, call that one, so the momentum is proportional to the velocity). When they are close, they are
 % more likely to collide with another particle and change direction, so this model assumes
 % 1) particles are more likely to change direction if they are close to the center
-% 2) the new momentum ~ old momentum + gaussian "walk"
+% 2) the new momentum ~ old momentum + gaussian "walk" (ie perturbation)
 %
 
 %
@@ -23,12 +23,13 @@ clear ; close all; clc
 AXIS_SCALE = [-20 20 -20 20];
 PARTICLES = 1000;
 SQUISH = 100;
-TIME_INCREMENT = 1;
+TIME_INCREMENT = 0.001;
 
 %% first off - start with a ball - how would a ball expand?
 
 p_x = randn(PARTICLES, 1);
 p_y = randn(PARTICLES, 1) / SQUISH;
+%p_y = randn(PARTICLES, 1);
 
 % so, every particle has a velocity to start with
 u_x = randn(PARTICLES,1);
@@ -60,22 +61,28 @@ pause (1);
 % guess - probability of walk = 1 / sqrt((p_x / SQUISH).^2 + p_y.^2) ie the closer in it is, the more dense
 % the material
 
-PROB_BOOST = 1/10;
+count = 0;
 
-for t=1:5
-	prob = 1 / sqrt((PROB_BOOST * p_x / SQUISH).^2 + (PROB_BOOST * p_y).^2);
+for t=1:5000
+	count++;
 
-	u_x = u_x + (prob * randn(PARTICLES,1)); % old speed + some random adjustment
-	u_y = u_y + (prob * randn(PARTICLES,1));
+	prob = (SQUISH / sqrt((p_x).^2 + (p_y * SQUISH).^2))';
+
+	u_x = u_x + (prob .* randn(PARTICLES,1)); % old speed + some random perturbation
+	u_y = u_y + (prob .* randn(PARTICLES,1));
 
 	p_x = u_x * TIME_INCREMENT + p_x;
 	p_y = u_y * TIME_INCREMENT + p_y;
 
-	c = sqrt(u_x.^2 + u_y.^2); % ie the magnitude of the speed
+	% print every 100th one
+	if count == 5000
+		count = 0;
+		c = sqrt(u_x.^2 + u_y.^2); % ie the magnitude of the speed
 
-	clf;
-	scatter(p_x, p_y, 20, c, 'filled')
-	axis (AXIS_SCALE);
+		clf;
+		scatter(p_x, p_y, 20, c, 'filled')
+		axis (AXIS_SCALE);
 
-	pause (1);
+		pause (1);
+	end
 end
