@@ -66,7 +66,7 @@ count = 0;
 for t=1:5000
 	count++;
 
-	prob = (SQUISH / sqrt((p_x).^2 + (p_y * SQUISH).^2))';
+	prob = (1 / sqrt((p_x / 3).^2 + (p_y).^2))';
 
 	u_x = u_x + (prob .* randn(PARTICLES,1)); % old speed + some random perturbation
 	u_y = u_y + (prob .* randn(PARTICLES,1));
@@ -75,9 +75,13 @@ for t=1:5000
 	p_y = u_y * TIME_INCREMENT + p_y;
 
 	% print every 100th one
-	if count == 5000
+	if count == 1000
 		count = 0;
-		c = sqrt(u_x.^2 + u_y.^2); % ie the magnitude of the speed
+
+		% ie the magnitude of the speed
+		% red = hot
+		% blue = cold
+		c = sqrt(u_x.^2 + u_y.^2); 
 
 		clf;
 		scatter(p_x, p_y, 20, c, 'filled')
