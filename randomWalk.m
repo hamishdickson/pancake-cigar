@@ -66,7 +66,9 @@ count = 0;
 for t=1:5000
 	count++;
 
-	prob = (1 / sqrt((p_x / 3).^2 + (p_y).^2))';
+	% if it's on the y axis, pretend it's actually further away - ie it will be in a region of lower
+	% density, so it will perturbate less
+	prob = (1 / sqrt((p_x).^2 + (p_y * SQUISH).^2))';
 
 	u_x = u_x + (prob .* randn(PARTICLES,1)); % old speed + some random perturbation
 	u_y = u_y + (prob .* randn(PARTICLES,1));
