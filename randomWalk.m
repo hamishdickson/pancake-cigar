@@ -70,8 +70,8 @@ for t=1:5000
 	% density, so it will perturbate less
 	prob = (1 / sqrt((p_x).^2 + (p_y * SQUISH).^2))';
 
-	u_x = u_x + (prob .* randn(PARTICLES,1)); % old speed + some random perturbation
-	u_y = u_y + (prob .* randn(PARTICLES,1));
+	u_x = u_x + prob .* (randn(PARTICLES,1) + u_x); % old speed + some random perturbation
+	u_y = u_y + prob .* (randn(PARTICLES,1) + u_y);
 
 	p_x = u_x * TIME_INCREMENT + p_x;
 	p_y = u_y * TIME_INCREMENT + p_y;
