@@ -61,6 +61,17 @@ pause (1);
 % guess - probability of walk = 1 / sqrt((p_x / SQUISH).^2 + p_y.^2) ie the closer in it is, the more dense
 % the material
 
+%
+% note: this doesn't do what I expected that could be for two (well 3) reasons
+% 1) Dyson's model could be different - the particles in the centre could "explode" first, causing a chain
+% 	reaction down the device. I am increaingly confident this is what he was talking about (it makes sense
+%	in terms of neutrinos)
+% 2) This model is way too simplistic. A good example would be momentum isn't conserved here
+% 2) This could require a level of "fine tuning" which I've not found yet. This is possible, but I would have
+%   expected this to be pretty robust
+% 3) I suck a programming/physics in general. Pretty possible.
+%
+
 count = 0;
 
 for t=1:5000
